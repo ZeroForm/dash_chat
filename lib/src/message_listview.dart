@@ -18,6 +18,7 @@ class MessageListView extends StatefulWidget {
   final Widget Function(String, [ChatMessage]) messageImageBuilder;
   final Widget Function(String, [ChatMessage]) messageTimeBuilder;
   final Widget Function() firstMessageContentBuilder;
+  final Widget Function(ChatMessage) customMessageBuilder;
 
   final Widget Function(String) dateBuilder;
   final Widget Function() renderMessageFooter;
@@ -76,6 +77,7 @@ class MessageListView extends StatefulWidget {
     this.messagePadding = const EdgeInsets.all(8.0),
     this.textBeforeImage = true,
     this.firstMessageContentBuilder,
+    this.customMessageBuilder,
     this.messageDecorationBuilder,
   });
 
@@ -265,7 +267,7 @@ class _MessageListViewState extends State<MessageListView> {
                                                 ));
                                       }
                                     },
-                                    child: widget.messageBuilder != null
+                                    child: (widget.messageBuilder != null
                                         ? widget
                                             .messageBuilder(widget.messages[i])
                                         : Align(
@@ -275,35 +277,41 @@ class _MessageListViewState extends State<MessageListView> {
                                                 ? AlignmentDirectional.centerEnd
                                                 : AlignmentDirectional
                                                     .centerStart,
-                                            child: MessageContainer(
-                                              messagePadding:
-                                                  widget.messagePadding,
-                                              constraints: constraints,
-                                              isUser:
-                                                  widget.messages[i].user.uid ==
-                                                      widget.user.uid,
-                                              message: widget.messages[i],
-                                              timeFormat: widget.timeFormat,
-                                              messageImageBuilder:
-                                                  widget.messageImageBuilder,
-                                              messageTextBuilder:
-                                                  widget.messageTextBuilder,
-                                              messageTimeBuilder:
-                                                  widget.messageTimeBuilder,
-                                              messageContainerDecoration: widget
-                                                  .messageContainerDecoration,
-                                              parsePatterns:
-                                                  widget.parsePatterns,
-                                              buttons:
-                                                  widget.messages[i].buttons,
-                                              messageButtonsBuilder:
-                                                  widget.messageButtonsBuilder,
-                                              textBeforeImage:
-                                                  widget.textBeforeImage,
-                                              messageDecorationBuilder: widget
-                                                  .messageDecorationBuilder,
-                                            ),
-                                          ),
+                                            child: widget.messages[i]
+                                                    .useCustomMessageBuilder
+                                                ? widget.customMessageBuilder(
+                                                    widget.messages[i])
+                                                : MessageContainer(
+                                                    messagePadding:
+                                                        widget.messagePadding,
+                                                    constraints: constraints,
+                                                    isUser: widget.messages[i]
+                                                            .user.uid ==
+                                                        widget.user.uid,
+                                                    message: widget.messages[i],
+                                                    timeFormat:
+                                                        widget.timeFormat,
+                                                    messageImageBuilder: widget
+                                                        .messageImageBuilder,
+                                                    messageTextBuilder: widget
+                                                        .messageTextBuilder,
+                                                    messageTimeBuilder: widget
+                                                        .messageTimeBuilder,
+                                                    messageContainerDecoration:
+                                                        widget
+                                                            .messageContainerDecoration,
+                                                    parsePatterns:
+                                                        widget.parsePatterns,
+                                                    buttons: widget
+                                                        .messages[i].buttons,
+                                                    messageButtonsBuilder: widget
+                                                        .messageButtonsBuilder,
+                                                    textBeforeImage:
+                                                        widget.textBeforeImage,
+                                                    messageDecorationBuilder: widget
+                                                        .messageDecorationBuilder,
+                                                  ),
+                                          )),
                                   ),
                                 ),
                                 if (widget.showuserAvatar)

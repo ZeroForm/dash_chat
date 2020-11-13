@@ -240,6 +240,10 @@ class DashChat extends StatefulWidget {
 
   final Widget Function() firstMessageContentBuilder;
 
+  /// customized message builder
+  ///
+  final Widget Function(ChatMessage) customMessageBuilder;
+
   /// Override the default behaviour of the onLoadEarleir Widget
   /// or used as a callback when the listView reaches the top
   final Function onLoadEarlier;
@@ -355,7 +359,8 @@ class DashChat extends StatefulWidget {
       this.messagePadding = const EdgeInsets.all(8.0),
       this.textBeforeImage = true,
       this.messageDecorationBuilder,
-      this.firstMessageContentBuilder})
+      this.firstMessageContentBuilder,
+      this.customMessageBuilder})
       : super(key: key) {
     this.scrollToBottomStyle = scrollToBottomStyle ?? new ScrollToBottomStyle();
   }
@@ -522,6 +527,7 @@ class DashChatState extends State<DashChat> {
                       showLoadMore: showLoadMore,
                       messageButtonsBuilder: widget.messageButtonsBuilder,
                       messageDecorationBuilder: widget.messageDecorationBuilder,
+                      customMessageBuilder: widget.customMessageBuilder,
                       firstMessageContentBuilder:
                           widget.firstMessageContentBuilder),
                   if (widget.messages.length != 0 &&

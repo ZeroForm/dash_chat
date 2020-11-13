@@ -41,18 +41,23 @@ class ChatMessage {
   /// actions in message container.
   List<Widget> buttons;
 
-  ChatMessage({
-    String id,
-    @required this.text,
-    @required this.user,
-    this.image,
-    this.video,
-    this.quickReplies,
-    String Function() messageIdGenerator,
-    DateTime createdAt,
-    this.customProperties,
-    this.buttons
-  }) {
+  // use custom builder?
+
+  bool useCustomMessageBuilder;
+
+  ChatMessage(
+      {String id,
+      @required this.text,
+      @required this.user,
+      this.image,
+      this.video,
+      this.quickReplies,
+      String Function() messageIdGenerator,
+      DateTime createdAt,
+      this.customProperties,
+      this.buttons,
+      this.useCustomMessageBuilder}) {
+    this.useCustomMessageBuilder = useCustomMessageBuilder ?? false;
     this.createdAt = createdAt != null ? createdAt : DateTime.now();
     this.id = id != null
         ? id
