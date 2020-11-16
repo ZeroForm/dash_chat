@@ -203,7 +203,7 @@ class _MessageListViewState extends State<MessageListView> {
                           Padding(
                             padding: EdgeInsets.only(
                               top: first ? 10.0 : 0.0,
-                              bottom: last ? 10.0 : 0.0,
+                              bottom: last ? 10.0 : 5.0,
                             ),
                             child: Row(
                               mainAxisAlignment:
