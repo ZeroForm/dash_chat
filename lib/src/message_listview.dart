@@ -210,7 +210,7 @@ class _MessageListViewState extends State<MessageListView> {
                                   widget.messages[i].user.uid == widget.user.uid
                                       ? MainAxisAlignment.end
                                       : MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.symmetric(

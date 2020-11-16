@@ -64,7 +64,13 @@ class AvatarContainer extends StatelessWidget {
                     child: Center(
                         child: Text(user.name == null || user.name.isEmpty
                             ? ''
-                            : user.name[0])),
+                            : user.firstName != null &&
+                                    user.lastName != null &&
+                                    user.firstName.isNotEmpty &&
+                                    user.lastName.isNotEmpty
+                                ? (user.firstName[0] + user.lastName[0])
+                                    .toUpperCase()
+                                : user.name[0])),
                   ),
                 ),
                 user.avatar != null && user.avatar.length != 0
