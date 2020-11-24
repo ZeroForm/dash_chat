@@ -90,80 +90,77 @@ class ChatInputToolbar extends StatelessWidget {
               ...leading,
               Expanded(
                   child: Container(
-                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 1),
-                    borderRadius: BorderRadius.circular(16.0)),
-                child:
-                    Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 4.0),
-                      child: Directionality(
-                        textDirection: textDirection,
-                        child: TextField(
-                          focusNode: focusNode,
-                          onChanged: (value) {
-                            onTextChange(value);
-                          },
-                          onSubmitted: (value) {
-                            if (sendOnEnter) {
-                              _sendMessage(context, message);
-                            }
-                          },
-                          textInputAction: textInputAction,
-                          buildCounter: (
-                            BuildContext context, {
-                            int currentLength,
-                            int maxLength,
-                            bool isFocused,
-                          }) =>
-                              null,
-                          decoration: inputDecoration != null
-                              ? inputDecoration
-                              : InputDecoration.collapsed(
-                                  hintText: "",
-                                  fillColor: Colors.white,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 1),
+                          borderRadius: BorderRadius.circular(16.0)),
+                      child: IntrinsicHeight(
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 4.0),
+                                  child: Directionality(
+                                    textDirection: textDirection,
+                                    child: TextField(
+                                      focusNode: focusNode,
+                                      onChanged: (value) {
+                                        onTextChange(value);
+                                      },
+                                      onSubmitted: (value) {
+                                        if (sendOnEnter) {
+                                          _sendMessage(context, message);
+                                        }
+                                      },
+                                      textInputAction: textInputAction,
+                                      buildCounter: (
+                                        BuildContext context, {
+                                        int currentLength,
+                                        int maxLength,
+                                        bool isFocused,
+                                      }) =>
+                                          null,
+                                      decoration: inputDecoration != null
+                                          ? inputDecoration
+                                          : InputDecoration.collapsed(
+                                              hintText: "",
+                                              fillColor: Colors.white,
+                                            ),
+                                      textCapitalization: textCapitalization,
+                                      controller: controller,
+                                      style: inputTextStyle,
+                                      maxLength: maxInputLength,
+                                      minLines: 1,
+                                      maxLines: inputMaxLines,
+                                      showCursor: showInputCursor,
+                                      cursorColor: inputCursorColor,
+                                      cursorWidth: inputCursorWidth,
+                                      enabled: !inputDisabled,
+                                    ),
+                                  ),
                                 ),
-                          textCapitalization: textCapitalization,
-                          controller: controller,
-                          style: inputTextStyle,
-                          maxLength: maxInputLength,
-                          minLines: 1,
-                          maxLines: inputMaxLines,
-                          showCursor: showInputCursor,
-                          cursorColor: inputCursorColor,
-                          cursorWidth: inputCursorWidth,
-                          enabled: !inputDisabled,
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (showTraillingBeforeSend) ...trailling,
-                  if (sendButtonBuilder != null)
-                    sendButtonBuilder(() async {
-                      if (text.length != 0) {
-                        await onSend(message);
-
-                        controller.text = "";
-
-                        onTextChange("");
-                      }
-                    })
-                  else
-                    IconButton(
-                      color: Color(0xff0c71c3),
-                      padding: EdgeInsets.zero,
-                      iconSize: 28.0,
-                      icon: Icon(Icons.send),
-                      onPressed: alwaysShowSend || text.length != 0
-                          ? () => _sendMessage(context, message)
-                          : null,
-                    )
-                ]),
-              )),
+                              ),
+                              if (showTraillingBeforeSend) ...trailling,
+                              if (sendButtonBuilder != null)
+                                sendButtonBuilder(() async {
+                                  _sendMessage(context, message);
+                                })
+                              else
+                                IconButton(
+                                  color: Color(0xff0c71c3),
+                                  padding: EdgeInsets.zero,
+                                  iconSize: 28.0,
+                                  icon: Icon(Icons.send),
+                                  onPressed: alwaysShowSend || text.length != 0
+                                      ? () => _sendMessage(context, message)
+                                      : null,
+                                )
+                            ]),
+                      ))),
               if (!showTraillingBeforeSend) ...trailling,
             ],
           ),
