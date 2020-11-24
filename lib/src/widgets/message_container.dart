@@ -121,13 +121,13 @@ class MessageContainer extends StatelessWidget {
               isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
             if (this.textBeforeImage)
-              _buildMessageText()
+              _buildMessageText(context)
             else
               _buildMessageImage(),
             if (this.textBeforeImage)
               _buildMessageImage()
             else
-              _buildMessageText(),
+              _buildMessageText(context),
             if (buttons != null)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,14 +174,14 @@ class MessageContainer extends StatelessWidget {
     );
   }
 
-  Widget _buildMessageText() {
+  Widget _buildMessageText(context) {
     if (messageTextBuilder != null)
       return messageTextBuilder(message.text, message);
     else
       return ParsedText(
         parse: parsePatterns,
         text: message.text,
-        textScaleFactor:null,
+        textScaleFactor:MediaQuery.textScaleFactorOf(context),
         style: TextStyle(
           color: message.user.color != null
               ? message.user.color
