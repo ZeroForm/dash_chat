@@ -96,8 +96,7 @@ class ChatInputToolbar extends StatelessWidget {
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(16.0)),
-                      child: IntrinsicHeight(
-                        child: Row(
+                      child:  Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
@@ -160,7 +159,7 @@ class ChatInputToolbar extends StatelessWidget {
                                       : null,
                                 )
                             ]),
-                      ))),
+                      )),
               if (!showTraillingBeforeSend) ...trailling,
             ],
           ),
