@@ -17,6 +17,9 @@ class MessageListView extends StatefulWidget {
   final Widget Function(String, [ChatMessage]) messageTextBuilder;
   final Widget Function(String, [ChatMessage]) messageImageBuilder;
   final Widget Function(String, [ChatMessage]) messageTimeBuilder;
+  final Widget Function() firstMessageContentBuilder;
+  final Widget Function(ChatMessage) customMessageBuilder;
+
   final Widget Function(String) dateBuilder;
   final Widget Function() renderMessageFooter;
   final BoxDecoration messageContainerDecoration;
@@ -37,44 +40,46 @@ class MessageListView extends StatefulWidget {
   final double avatarMaxSize;
   final BoxDecoration Function(ChatMessage, bool) messageDecorationBuilder;
 
-  MessageListView(
-      {this.showLoadEarlierWidget,
-      this.avatarMaxSize,
-      this.shouldShowLoadEarlier,
-      this.constraints,
-      this.onLoadEarlier,
-      this.defaultLoadCallback,
-      this.messageContainerPadding =
-          const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-      this.scrollController,
-      this.parsePatterns = const [],
-      this.messageContainerDecoration,
-      this.messages,
-      this.user,
-      this.showuserAvatar,
-      this.dateFormat,
-      this.timeFormat,
-      this.showAvatarForEverMessage,
-      this.inverted,
-      this.onLongPressAvatar,
-      this.onLongPressMessage,
-      this.onPressAvatar,
-      this.renderAvatarOnTop,
-      this.messageBuilder,
-      this.renderMessageFooter,
-      this.avatarBuilder,
-      this.dateBuilder,
-      this.messageImageBuilder,
-      this.messageTextBuilder,
-      this.messageTimeBuilder,
-      this.changeVisible,
-      this.visible,
-      this.showLoadMore,
-      this.messageButtonsBuilder,
-      this.messagePadding = const EdgeInsets.all(8.0),
-      this.textBeforeImage = true,
-      this.messageDecorationBuilder,
-      });
+  MessageListView({
+    this.showLoadEarlierWidget,
+    this.avatarMaxSize,
+    this.shouldShowLoadEarlier,
+    this.constraints,
+    this.onLoadEarlier,
+    this.defaultLoadCallback,
+    this.messageContainerPadding =
+        const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+    this.scrollController,
+    this.parsePatterns = const [],
+    this.messageContainerDecoration,
+    this.messages,
+    this.user,
+    this.showuserAvatar,
+    this.dateFormat,
+    this.timeFormat,
+    this.showAvatarForEverMessage,
+    this.inverted,
+    this.onLongPressAvatar,
+    this.onLongPressMessage,
+    this.onPressAvatar,
+    this.renderAvatarOnTop,
+    this.messageBuilder,
+    this.renderMessageFooter,
+    this.avatarBuilder,
+    this.dateBuilder,
+    this.messageImageBuilder,
+    this.messageTextBuilder,
+    this.messageTimeBuilder,
+    this.changeVisible,
+    this.visible,
+    this.showLoadMore,
+    this.messageButtonsBuilder,
+    this.messagePadding = const EdgeInsets.all(8.0),
+    this.textBeforeImage = true,
+    this.firstMessageContentBuilder,
+    this.customMessageBuilder,
+    this.messageDecorationBuilder,
+  });
 
   @override
   _MessageListViewState createState() => _MessageListViewState();
@@ -173,6 +178,15 @@ class _MessageListViewState extends State<MessageListView> {
                       showDate = false;
                     }
 
+                    if (widget.messages[i].id == "1" &&
+                        widget.firstMessageContentBuilder != null) {
+                      return Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: constraints.maxWidth * 0.02,
+                          ),
+                          child: widget.firstMessageContentBuilder());
+                    }
+
                     return Align(
                       child: Column(
                         children: <Widget>[
@@ -189,14 +203,14 @@ class _MessageListViewState extends State<MessageListView> {
                           Padding(
                             padding: EdgeInsets.only(
                               top: first ? 10.0 : 0.0,
-                              bottom: last ? 10.0 : 0.0,
+                              bottom: last ? 10.0 : 5.0,
                             ),
                             child: Row(
                               mainAxisAlignment:
                                   widget.messages[i].user.uid == widget.user.uid
                                       ? MainAxisAlignment.end
                                       : MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.symmetric(
@@ -253,44 +267,51 @@ class _MessageListViewState extends State<MessageListView> {
                                                 ));
                                       }
                                     },
-                                    child: widget.messageBuilder != null
+                                    child: (widget.messageBuilder != null
                                         ? widget
                                             .messageBuilder(widget.messages[i])
                                         : Align(
-                                            alignment:
-                                                widget.messages[i].user.uid ==
-                                                        widget.user.uid
-                                                    ? AlignmentDirectional.centerEnd
-                                                    : AlignmentDirectional.centerStart,
-                                            child: MessageContainer(
-                                              messagePadding:
-                                                  widget.messagePadding,
-                                              constraints: constraints,
-                                              isUser:
-                                                  widget.messages[i].user.uid ==
-                                                      widget.user.uid,
-                                              message: widget.messages[i],
-                                              timeFormat: widget.timeFormat,
-                                              messageImageBuilder:
-                                                  widget.messageImageBuilder,
-                                              messageTextBuilder:
-                                                  widget.messageTextBuilder,
-                                              messageTimeBuilder:
-                                                  widget.messageTimeBuilder,
-                                              messageContainerDecoration: widget
-                                                  .messageContainerDecoration,
-                                              parsePatterns:
-                                                  widget.parsePatterns,
-                                              buttons:
-                                                  widget.messages[i].buttons,
-                                              messageButtonsBuilder:
-                                                  widget.messageButtonsBuilder,
-                                              textBeforeImage:
-                                                  widget.textBeforeImage,
-                                              messageDecorationBuilder:
-                                                  widget.messageDecorationBuilder,
-                                            ),
-                                          ),
+                                            alignment: widget
+                                                        .messages[i].user.uid ==
+                                                    widget.user.uid
+                                                ? AlignmentDirectional.centerEnd
+                                                : AlignmentDirectional
+                                                    .centerStart,
+                                            child: widget.messages[i]
+                                                    .useCustomMessageBuilder
+                                                ? widget.customMessageBuilder(
+                                                    widget.messages[i])
+                                                : MessageContainer(
+                                                    messagePadding:
+                                                        widget.messagePadding,
+                                                    constraints: constraints,
+                                                    isUser: widget.messages[i]
+                                                            .user.uid ==
+                                                        widget.user.uid,
+                                                    message: widget.messages[i],
+                                                    timeFormat:
+                                                        widget.timeFormat,
+                                                    messageImageBuilder: widget
+                                                        .messageImageBuilder,
+                                                    messageTextBuilder: widget
+                                                        .messageTextBuilder,
+                                                    messageTimeBuilder: widget
+                                                        .messageTimeBuilder,
+                                                    messageContainerDecoration:
+                                                        widget
+                                                            .messageContainerDecoration,
+                                                    parsePatterns:
+                                                        widget.parsePatterns,
+                                                    buttons: widget
+                                                        .messages[i].buttons,
+                                                    messageButtonsBuilder: widget
+                                                        .messageButtonsBuilder,
+                                                    textBeforeImage:
+                                                        widget.textBeforeImage,
+                                                    messageDecorationBuilder: widget
+                                                        .messageDecorationBuilder,
+                                                  ),
+                                          )),
                                   ),
                                 ),
                                 if (widget.showuserAvatar)

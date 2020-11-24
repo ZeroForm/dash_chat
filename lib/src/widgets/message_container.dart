@@ -112,8 +112,8 @@ class MessageContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0),
                   ),
         margin: EdgeInsets.only(
-          bottom: 5.0,
-        ),
+            // bottom: 5.0,
+            ),
         padding: messagePadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -162,7 +162,9 @@ class MessageContainer extends StatelessWidget {
                     fontSize: 10.0,
                     color: message.user.color != null
                         ? message.user.color
-                        : isUser ? Colors.white70 : Colors.black87,
+                        : isUser
+                            ? Colors.white70
+                            : Colors.black87,
                   ),
                 ),
               )
@@ -183,7 +185,9 @@ class MessageContainer extends StatelessWidget {
         style: TextStyle(
           color: message.user.color != null
               ? message.user.color
-              : isUser ? Colors.white70 : Colors.black87,
+              : isUser
+                  ? Colors.white70
+                  : Colors.black87,
         ),
       );
   }
