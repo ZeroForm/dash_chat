@@ -13,6 +13,9 @@ dependencies:
   uuid: ^2.0.1
   intl: ^0.16.0
   transparent_image: ^1.0.0
+  flutter_native_text_input: 
+    path: /Users/scott/MobileApps/flutter-native-text-input
+
 
 dev_dependencies:
   flutter_test:

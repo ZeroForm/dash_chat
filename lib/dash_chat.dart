@@ -9,6 +9,8 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import 'package:flutter_native_text_input/flutter_native_text_input.dart';
+
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:flutter_parsed_text/flutter_parsed_text.dart';
 
